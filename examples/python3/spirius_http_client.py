@@ -118,6 +118,7 @@ class SpiriusHttpClient:
 
 if __name__ == "__main__":
     client = SpiriusHttpClient(
+        # Key is available on the account page on https://portal.spirius.com
         shared_key="78701a30f3f83437df6284ced6fc9ba58ca6a31c8031df3e8cb7a17eca7b91ed",
         username="test"
     )
