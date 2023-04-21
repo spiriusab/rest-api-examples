@@ -1,6 +1,5 @@
-// This example uses the builtin HttpClient that was introduced in Java 11.
-// It also uses the jackson library to serialize data to JSON.
-// See https://github.com/FasterXML/jackson
+package spirius_rest_api;
+
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -37,7 +36,7 @@ public class SmsClient {
         final var path = "/sms/mt/send";
         final var verb = "POST";
 
-        // Using TreeMap here since it implements SortedMap, which makes debugging easier for us
+        // Using LinkedHashMap here since it implements SortedMap, which makes debugging easier
         var request_body = new LinkedHashMap<String, String>();
         request_body.put("message", message);
         request_body.put("to", to);
@@ -94,7 +93,6 @@ public class SmsClient {
             throws NoSuchAlgorithmException, InvalidKeyException, IOException, InterruptedException {
         var requestBody = new ObjectMapper()
                 .configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, false)
-                //.writerWithDefaultPrettyPrinter()
                 .writeValueAsString(body);
 
         final var unixTime = System.currentTimeMillis() / 1_000L;
@@ -148,19 +146,5 @@ public class SmsClient {
         }
         return new String(hexChars);
     }
-
-    public static void main(String[] args) throws IOException, InterruptedException, NoSuchAlgorithmException, InvalidKeyException {
-        var client = new SmsClient(
-                // Key is available on the account page on https://portal.spirius.com
-                "cd3f3cc3a5c3bb8fbec86599d8a0d7b5e3e6f1b105e8508658ee9738a729fb84",
-                "test"
-        );
-        client.sendSMS(
-                "Hello world!",
-                "+46123456789",
-                "SPIRIUS"
-        );
-    }
-
 }
 
